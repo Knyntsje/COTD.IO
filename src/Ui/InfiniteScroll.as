@@ -50,7 +50,7 @@ class InfiniteScrollTable : InfiniteScroll {
 
         if (isLoading) {
             if (UI::TableNextColumn()) {
-                UI::Text("\\$999" + Icons::Spinner + " Loading...");
+                UI::Text("\\$999" + Icons::Spinner);
             }
         }
 
