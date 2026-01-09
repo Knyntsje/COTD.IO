@@ -9,13 +9,13 @@ class Totd : SubRoute {
     }
 
     protected void RenderRoute() override {
-        UI::Text("Author: \\$0f0" + Time::Format(totd.Map.AuthorScore));
+        UI::Text("Author: " + Api::MedalToColor(Api::e_Medal::Author) + Time::Format(totd.Map.AuthorScore));
         UI::SameLine();
-        UI::Text("Gold: \\$fd0" + Time::Format(totd.Map.GoldScore));
+        UI::Text("Gold: " + Api::MedalToColor(Api::e_Medal::Gold) + Time::Format(totd.Map.GoldScore));
         UI::SameLine();
-        UI::Text("Silver: \\$ccc" + Time::Format(totd.Map.SilverScore));
+        UI::Text("Silver: " + Api::MedalToColor(Api::e_Medal::Silver) + Time::Format(totd.Map.SilverScore));
         UI::SameLine();
-        UI::Text("Bronze: \\$f80" + Time::Format(totd.Map.BronzeScore));
+        UI::Text("Bronze: " + Api::MedalToColor(Api::e_Medal::Bronze) + Time::Format(totd.Map.BronzeScore));
 
         if (UI::Button(Icons::Refresh + "##" + id + "refresh")) {
             DataChanged = true;
@@ -52,7 +52,7 @@ class Totd : SubRoute {
                 }
 
                 if (UI::TableNextColumn()) {
-                    UI::Text(Time::Format(entry.Score));
+                    UI::Text(Api::MedalToColor(entry.Medal) + Time::Format(entry.Score));
                     if (index > 0) {
                         UI::SameLine();
                         UI::Text("\\$999(+" + Time::Format(entry.Score - leaderboard[0].Score) + ")");

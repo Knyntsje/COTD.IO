@@ -16,6 +16,22 @@ class Map {
         return Text::OpenplanetFormatCodes(name);
     }
 
+    e_Medal DetermineMedal(const int64 &in score) const {
+        if (score >= authorScore) {
+            return e_Medal::Author;
+        }
+        if (score >= goldScore) {
+            return e_Medal::Gold;
+        }
+        if (score >= silverScore) {
+            return e_Medal::Silver;
+        }
+        if (score >= bronzeScore) {
+            return e_Medal::Bronze;
+        }
+        return e_Medal::None;
+    }
+
     string get_Id() const {
         return id;
     }

@@ -8,7 +8,7 @@ class Cup : SubRoute {
 
         @router = Router();
         router.AddRoute(Route::CupLeaderboard(cupDataEntry));
-        router.AddRoute(Route::CupQualifierLeaderboard(cupDataEntry));
+        router.AddRoute(Route::CupQualifierLeaderboard(totd.Map, cupDataEntry));
     }
 
     void Update() override {
@@ -19,13 +19,13 @@ class Cup : SubRoute {
     protected void RenderRoute() override {
         UI::Text("Players: " + tostring(cupDataEntry.NumPlayers));
         UI::SameLine();
-        UI::Text("Author: \\$0f0" + Time::Format(totd.Map.AuthorScore));
+        UI::Text("Author: " + Api::MedalToColor(Api::e_Medal::Author) + Time::Format(totd.Map.AuthorScore));
         UI::SameLine();
-        UI::Text("Gold: \\$fd0" + Time::Format(totd.Map.GoldScore));
+        UI::Text("Gold: " + Api::MedalToColor(Api::e_Medal::Gold) + Time::Format(totd.Map.GoldScore));
         UI::SameLine();
-        UI::Text("Silver: \\$ccc" + Time::Format(totd.Map.SilverScore));
+        UI::Text("Silver: " + Api::MedalToColor(Api::e_Medal::Silver) + Time::Format(totd.Map.SilverScore));
         UI::SameLine();
-        UI::Text("Bronze: \\$f80" + Time::Format(totd.Map.BronzeScore));
+        UI::Text("Bronze: " + Api::MedalToColor(Api::e_Medal::Bronze) + Time::Format(totd.Map.BronzeScore));
 
         router.Render();
     }

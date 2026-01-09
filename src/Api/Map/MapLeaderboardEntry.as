@@ -8,7 +8,7 @@ class MapLeaderboardEntry {
         zoneId = json["zoneId"];
         score = json["score"];
         mapRecordId = json["mapRecordId"];
-        medal = Text::ParseInt(json["medal"]);
+        medal = e_Medal(Text::ParseInt(json["medal"]));
         when = json["when"];
     }
 
@@ -36,7 +36,7 @@ class MapLeaderboardEntry {
         return mapRecordId;
     }
 
-    int get_Medal() const {
+    e_Medal get_Medal() const {
         return medal;
     }
 
@@ -50,7 +50,7 @@ class MapLeaderboardEntry {
     private string zoneId;
     private int64 score;
     private string mapRecordId;
-    private int medal;
+    private e_Medal medal;
     private string when;
 }
 

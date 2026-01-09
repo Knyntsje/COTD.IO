@@ -1,8 +1,9 @@
 namespace Route {
 
 class CupQualifierLeaderboard : Route {
-    CupQualifierLeaderboard(const Api::CupDataEntry @_cupDataEntry) {
+    CupQualifierLeaderboard(const Api::Map @_map, const Api::CupDataEntry @_cupDataEntry) {
         super("cup/qualifierleaderboard", "Qualifier");
+        @map = _map;
         @cupDataEntry = _cupDataEntry;
 
         @infiniteScroll = UI::InfiniteScrollTable("##qualifierleaderboard", UI::InfiniteScrollCallback(MarkDirty));
@@ -39,7 +40,7 @@ class CupQualifierLeaderboard : Route {
                 }
 
                 if (UI::TableNextColumn()) {
-                    UI::Text(Time::Format(entry.Score));
+                    UI::Text(Api::MedalToColor(map.DetermineMedal(entry.Score)) + Time::Format(entry.Score));
                     if (index > 0) {
                         UI::SameLine();
                         UI::Text("\\$999(+" + Time::Format(entry.Score - leaderboard[0].Score) + ")");
@@ -72,6 +73,7 @@ class CupQualifierLeaderboard : Route {
     private UI::InfiniteScrollTable @infiniteScroll;
 
     private array<const Api::CotdQualifierLeaderboardEntry@> leaderboard;
+    private const Api::Map @map;
     private const Api::CupDataEntry @cupDataEntry;
 }
 
