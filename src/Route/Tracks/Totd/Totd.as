@@ -25,13 +25,14 @@ class Totd : SubRoute {
         UI::SetNextItemWidth(-1);
         search = UI::InputTextWithHint("##search", "Search by player name, tag, etc...", search, DataChanged);        
 
-        if (infiniteScroll.Begin(4)) {
+        if (infiniteScroll.Begin(5)) {
             UI::TableSetupScrollFreeze(0, 1);
 
             UI::TableSetupColumn("##position");
             UI::TableSetupColumn("Player");
             UI::TableSetupColumn("Time");
             UI::TableSetupColumn("When");
+            UI::TableSetupColumn("");
 
             UI::TableHeadersRow();
             foreach (const Api::MapLeaderboardEntry @entry, const int index : leaderboard) {
@@ -60,6 +61,12 @@ class Totd : SubRoute {
 
                 if (UI::TableNextColumn()) {
                     UI::Text(entry.When);
+                }
+
+                if (UI::TableNextColumn()) {
+                    if (UI::Button(Icons::Download + "##" + entry.MapRecordId + "download")) {
+                        OpenBrowserURL("https://cotd.io/api/download/ghost/" + entry.MapRecordId);
+                    }
                 }
 
                 UI::TableNextRow();

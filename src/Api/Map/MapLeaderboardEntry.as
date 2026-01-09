@@ -2,6 +2,7 @@ namespace Api {
 
 class MapLeaderboardEntry {
     MapLeaderboardEntry(const Json::Value @&in json) {
+        mapUid = json["mapUid"];
         position = json["position"];
         @player = Api::Player(json["player"]);
         zoneId = json["zoneId"];
@@ -9,6 +10,10 @@ class MapLeaderboardEntry {
         mapRecordId = json["mapRecordId"];
         medal = Text::ParseInt(json["medal"]);
         when = json["when"];
+    }
+
+    string get_MapUid() const {
+        return mapUid;
     }
 
     int get_Position() const {
@@ -39,6 +44,7 @@ class MapLeaderboardEntry {
         return when;
     }
 
+    private string mapUid;
     private int position;
     private Api::Player @player;
     private string zoneId;
