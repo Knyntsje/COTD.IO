@@ -45,7 +45,9 @@ class Totd : SubRoute {
                         UI::SameLine();
                     }
 
-                    UI::Text(entry.Player.GetDisplayName());
+                    if (UI::ClickableText(entry.Player.GetDisplayName())) {
+                        UI::window.Router.Goto("players", Route::Player(entry.Player));
+                    }
                 }
 
                 if (UI::TableNextColumn()) {

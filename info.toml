@@ -2,7 +2,7 @@
 name = "COTD.IO"
 author = "Knyntsje"
 category = "Utilities"
-version = "0.1.0"
+version = "dev"
 
 [script]
 dependencies = [ "NadeoServices" ]

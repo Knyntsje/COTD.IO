@@ -88,7 +88,9 @@ class Tracks : Route {
                 }
 
                 if (UI::TableNextColumn()) {
-                    UI::Text(totd.Map.Author.GetDisplayName());
+                    if (UI::ClickableText(totd.Map.Author.GetDisplayName())) {
+                        UI::window.Router.Goto("players", Route::Player(totd.Map.Author));
+                    }
                 }
 
                 if (UI::TableNextColumn()) {

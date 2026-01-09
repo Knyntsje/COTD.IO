@@ -32,7 +32,9 @@ class CupLeaderboard : Route {
                         UI::SameLine();
                     }
 
-                    UI::Text(entry.Player.GetDisplayName());
+                    if (UI::ClickableText(entry.Player.GetDisplayName())) {
+                        UI::window.Router.Goto("players", Route::Player(entry.Player));
+                    }
                 }
 
                 UI::TableNextRow();
