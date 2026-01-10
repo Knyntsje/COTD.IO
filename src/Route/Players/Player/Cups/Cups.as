@@ -13,6 +13,14 @@ class PlayerCups : Route {
             MarkDataChanged();
         }
 
+        if (numberStatRenderer.Begin(numberStats)) {
+            numberStatRenderer.Render("Cups played", "participated", "played_cups", "total_cups");
+            numberStatRenderer.Render("Division 1", "achieved", "top_64", "played_cups");
+            numberStatRenderer.Render("Divisions 1-2", "achieved", "top_128", "played_cups");
+            numberStatRenderer.Render("Divisions 1-3", "achieved", "top_192", "played_cups");
+            numberStatRenderer.End();
+        }
+
         if (infiniteScroll.Begin(5)) {
             UI::TableSetupScrollFreeze(0, 1);
 
@@ -62,6 +70,10 @@ class PlayerCups : Route {
     }
 
     protected void Load() override {
+        if (offset == 0) {
+            @numberStats = Api::client.GetPlayerCupNumberStats(player.AccountId, cupTypes);
+        }
+
         const array<Api::PlayerCup@> newCups = Api::client.GetPlayerCups(player.AccountId, cupTypes, offset, offset);
         foreach (const Api::PlayerCup @newCup : newCups) {
             cups.InsertLast(newCup);
@@ -73,7 +85,10 @@ class PlayerCups : Route {
     private array<Api::e_CupType> cupTypes;
     private UI::InfiniteScrollTable @infiniteScroll;
 
+    private UI::NumberStatRenderer numberStatRenderer;
+
     private array<const Api::PlayerCup@> cups;
+    private Json::Value @numberStats;
     private const Api::Player @player;
 }
 

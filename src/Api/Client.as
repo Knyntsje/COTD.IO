@@ -1,6 +1,12 @@
 namespace Api {
 
 class Client {
+    Client() {
+        if (Meta::ExecutingPlugin().Version == "dev") {
+            baseUrl = "http://localhost:5173/api";
+        }
+    }
+
     /// FYI: AngelScript is optimizing the out parameter away if we also use it as input offset, so we need to use separate
     /// parameters for in and out offsets. I think it's due to having to use &out instead of &inout (which it should technically be)
     /// and because it then doesn't consider this as an input, it doesn't see any other references to it and thus it optimizes it away.
@@ -106,12 +112,7 @@ class Client {
     }
 
     array<PlayerCup@> GetPlayerCups(const string &in accountId, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
-        string types = "";
-        foreach (const e_CupType cupType : cupTypes) {
-            types = AppendString(types, CupTypeToString(cupType), ",");
-        }
-
-        const Json::Value @json = GetJson(baseUrl + "/players/" + accountId + "/cotds/" + offset + "?types=" + types);
+        const Json::Value @json = GetJson(baseUrl + "/players/" + accountId + "/cotds/" + offset + "?types=" + FormatCupTypes(cupTypes));
         if (json.GetType() != Json::Type::Object) {
             return array<PlayerCup@>();
         }
@@ -125,6 +126,10 @@ class Client {
             cups.InsertLast(PlayerCup(cupsJson[i]));
         }
         return cups;
+    }
+
+    Json::Value @GetPlayerCupNumberStats(const string &in accountId, const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/number?types=" + FormatCupTypes(cupTypes));
     }
 
     array<PlayerTotd@> GetPlayerTotds(const string &in accountId, const int offset, int &out newOffset) const {
@@ -144,7 +149,11 @@ class Client {
         return totds;
     }
 
-    Json::Value @GetJson(const string &in url) const {
+    Json::Value @GetPlayerTotdNumberStats(const string &in accountId) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/totds/stats/number");
+    }
+
+    private Json::Value @GetJson(const string &in url) const {
         Net::HttpRequest@ request = Net::HttpRequest(url);
         await(request.Start());
 
@@ -154,6 +163,14 @@ class Client {
         }
 
         return request.Json();
+    }
+
+    private string FormatCupTypes(const array<e_CupType> &in cupTypes) const {
+        string types = "";
+        foreach (const e_CupType cupType : cupTypes) {
+            types = AppendString(types, CupTypeToString(cupType), ",");
+        }
+        return types;
     }
     
     private string baseUrl = "https://cotd.io/api";

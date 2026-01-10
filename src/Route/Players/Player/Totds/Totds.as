@@ -8,6 +8,14 @@ class PlayerTotds : Route {
     }
 
     protected void RenderRoute() override {
+        if (numberStatRenderer.Begin(numberStats)) {
+            numberStatRenderer.Render("Tracks played", "participated", "played_maps", "total_maps");
+            numberStatRenderer.Render("Top 10", "achieved", "top_10", "played_maps");
+            numberStatRenderer.Render("Top 100", "achieved", "top_100", "played_maps");
+            numberStatRenderer.Render("Top 1000", "achieved", "top_1000", "played_maps");
+            numberStatRenderer.End();
+        }
+
         if (infiniteScroll.Begin(5)) {
             UI::TableSetupScrollFreeze(0, 1);
 
@@ -50,6 +58,10 @@ class PlayerTotds : Route {
     }
 
     protected void Load() override {
+        if (offset == 0) {
+            @numberStats = Api::client.GetPlayerTotdNumberStats(player.AccountId);
+        }
+
         const array<Api::PlayerTotd@> newTotds = Api::client.GetPlayerTotds(player.AccountId, offset, offset);
         foreach (const Api::PlayerTotd @newTotd : newTotds) {
             totds.InsertLast(newTotd);
@@ -60,7 +72,10 @@ class PlayerTotds : Route {
     private int offset = 0;
     private UI::InfiniteScrollTable @infiniteScroll;
 
+    private UI::NumberStatRenderer numberStatRenderer;
+
     private array<const Api::PlayerTotd@> totds;
+    private Json::Value @numberStats;
     private const Api::Player @player;
 }
 

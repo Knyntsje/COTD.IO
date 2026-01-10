@@ -6,6 +6,10 @@ class Window {
         // router.AddRoute(Route::Stats()); -- Soon :)
         router.AddRoute(Route::Tracks());
         router.AddRoute(Route::Players());
+
+        if (Meta::ExecutingPlugin().Version == "dev") {
+            isOpen = true;
+        }
     }
 
     bool GetIsOpen() {
