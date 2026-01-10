@@ -51,8 +51,8 @@ class Route {
                 else {
                     RenderRoute();
                 }
-                UI::EndChild();
             }
+            UI::EndChild();
             UI::EndTabItem();
         }
         return isActive;
