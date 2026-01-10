@@ -13,17 +13,15 @@ class PlayerCups : Route {
             MarkDataChanged();
         }
 
-        if (numberStatRenderer.Begin(numberStats)) {
-            numberStatRenderer.Render("Cups played", "participated", "played_cups", "total_cups");
-            numberStatRenderer.Render("Division 1", "achieved", "top_64", "played_cups");
-            numberStatRenderer.Render("Divisions 1-2", "achieved", "top_128", "played_cups");
-            numberStatRenderer.Render("Divisions 1-3", "achieved", "top_192", "played_cups");
-            numberStatRenderer.End();
+        if (numberStatsRenderer.Begin(numberStats)) {
+            numberStatsRenderer.Render("Cups played", "participated", "played_cups", "total_cups");
+            numberStatsRenderer.Render("Division 1", "achieved", "top_64", "played_cups");
+            numberStatsRenderer.Render("Divisions 1-2", "achieved", "top_128", "played_cups");
+            numberStatsRenderer.Render("Divisions 1-3", "achieved", "top_192", "played_cups");
+            numberStatsRenderer.End();
         }
 
         if (UI::BeginTable("##cups", 4)) {
-            UI::TableSetupScrollFreeze(0, 1);
-
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Type");
             UI::TableSetupColumn("Track");
@@ -50,8 +48,6 @@ class PlayerCups : Route {
                     UI::SameLine();
                     UI::Text("\\$999Div " + tostring(cup.Position.GetDivision()));
                 }
-
-                UI::TableNextRow();
             }
 
             UI::EndTable();
@@ -84,7 +80,7 @@ class PlayerCups : Route {
     private array<Api::e_CupType> cupTypes;
     private UI::InfiniteScroll @infiniteScroll;
 
-    private UI::NumberStatRenderer numberStatRenderer;
+    private UI::NumberStatsRenderer numberStatsRenderer;
 
     private array<const Api::PlayerCup@> cups;
     private Json::Value @numberStats;

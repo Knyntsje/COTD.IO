@@ -16,31 +16,32 @@ class Router {
     }
 
     void Render() {
-        UI::BeginTabBar("##routerTabs");
-        
+        UI::BeginTabBar("##routerTabs");        
         foreach (Route @route : routes) {
-            const bool forceActive = @route == @pendingNavigateRoute;
-            if (route.Render(forceActive)) {
+            if (route.Render(@route == @pendingNavigateRoute)) {
                 @activeRoute = route;
             }
 
-            if (forceActive) {
+            if (@activeRoute == @pendingNavigateRoute) {
                 @pendingNavigateRoute = null;
             }
         }
-       
         UI::EndTabBar();
     }
 
     void Update() {
-        if (activeRoute !is null) {
-            activeRoute.Update();
+        foreach (Route @route : routes) {
+            if (@route == @activeRoute) {
+                route.Update();
+            }
         }
     }
 
     void Reset() {
         foreach (Route @route : routes) {
-            route.MarkDataChanged();
+            if (@route == @activeRoute) {
+                route.MarkDataChanged();
+            }
         }
     }
 

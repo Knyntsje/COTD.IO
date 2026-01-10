@@ -15,27 +15,22 @@ class Players : Route {
         UI::SetNextItemWidth(-1);
         search = UI::InputTextWithHint("##search", "Search by player name, tag, etc...", search, DataChanged);
 
-        if (infiniteScroll.Begin(2)) {
+        if (infiniteScroll.Begin(1)) {
             UI::TableSetupScrollFreeze(0, 1);
-
-            UI::TableSetupColumn("##avatar", UI::TableColumnFlags::WidthFixed, 18.f);
-            UI::TableSetupColumn("Name");
+            UI::TableSetupColumn("Player");
 
             UI::TableHeadersRow();
             foreach (const Api::Player @player : players) {
                 if (UI::TableNextColumn()) {
                     if (player.Avatar !is null) {
                         UI::Image(player.Avatar);
+                        UI::SameLine();
                     }
-                }
 
-                if (UI::TableNextColumn()) {
                     if (UI::Selectable(player.GetDisplayName() + "##" + player.AccountId, false, UI::SelectableFlags::SpanAllColumns)) {
                         SetSubRoute(Route::Player(player));
                     }
                 }
-
-                UI::TableNextRow();
             }
 
             infiniteScroll.End();

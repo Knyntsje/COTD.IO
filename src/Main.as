@@ -1,4 +1,5 @@
 void Main() {
+	@Api::client = Api::Client();
 	startnew(Update);
 }
 

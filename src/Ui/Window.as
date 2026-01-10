@@ -3,7 +3,7 @@ namespace UI {
 class Window {
     Window() {
         @router = Route::Router();
-        // router.AddRoute(Route::Stats()); -- Soon :)
+        router.AddRoute(Route::Stats());
         router.AddRoute(Route::Tracks());
         router.AddRoute(Route::Players());
 
@@ -30,8 +30,22 @@ class Window {
             flags |= UI::WindowFlags::MenuBar;
         }
 
+        bool reset = false;
         if (UI::Begin(Icons::Trophy + " COTD.IO", isOpen, flags)) {
             if (player !is null && UI::BeginMenuBar()) {
+                if (Meta::ExecutingPlugin().Version == "dev") {
+                    if (UI::BeginMenu("Dev")) {
+                        if (UI::MenuItem("Local API", "", Settings::Dev::USE_LOCAL_API)) {
+                            Settings::Dev::USE_LOCAL_API = !Settings::Dev::USE_LOCAL_API;
+                            reset = true;
+                        }
+                        if (UI::MenuItem("Log API Requests", "", Settings::Dev::LOG_API_REQUESTS)) {
+                            Settings::Dev::LOG_API_REQUESTS = !Settings::Dev::LOG_API_REQUESTS;
+                        }
+                        UI::EndMenu();
+                    }
+                }
+
                 if (UI::MenuItem(player.GetDisplayName())) {
                     router.Goto("players", Route::Player(player));
                 }
@@ -40,6 +54,11 @@ class Window {
 
             router.Render();
             UI::End();
+        }
+
+        if (reset) {
+            @Api::client = Api::Client();
+            window = Window();
         }
     }
 

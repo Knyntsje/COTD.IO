@@ -12,10 +12,10 @@ class CupLeaderboard : Route {
         UI::SetNextItemWidth(-1);
         search = UI::InputTextWithHint("##search", "Search by player name, tag, etc...", search, DataChanged);
 
-        if (infiniteScroll.Begin(4)) {
+        if (infiniteScroll.Begin(2)) {
             UI::TableSetupScrollFreeze(0, 1);
 
-            UI::TableSetupColumn("##position");
+            UI::TableSetupColumn("");
             UI::TableSetupColumn("Player");
 
             UI::TableHeadersRow();
@@ -36,8 +36,6 @@ class CupLeaderboard : Route {
                         UI::window.Router.Goto("players", Route::Player(entry.Player));
                     }
                 }
-
-                UI::TableNextRow();
             }
 
             infiniteScroll.End();

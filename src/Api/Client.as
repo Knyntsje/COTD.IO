@@ -2,9 +2,7 @@ namespace Api {
 
 class Client {
     Client() {
-        if (Meta::ExecutingPlugin().Version == "dev") {
-            baseUrl = "http://localhost:5173/api";
-        }
+        baseUrl = dev.UseLocalAPI() ? "http://localhost:5173/api" : "https://cotd.io/api";
     }
 
     /// FYI: AngelScript is optimizing the out parameter away if we also use it as input offset, so we need to use separate
@@ -153,7 +151,147 @@ class Client {
         return GetJson(baseUrl + "/players/" + accountId + "/totds/stats/number");
     }
 
+    array<Api::TopPlayer@> GetCupTopWins(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/cups/wins/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetCupTopConsecutiveWins(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/cups/wins/consecutive/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetCupTopDiv1(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/cups/div-1/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetCupTopDiv1Consecutive(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/cups/div-1/consecutive/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetTotdTopWrs(const string &in search, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/tracks/wrs/" + offset + "?search=" + search);
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetTotdTopTop10s(const string &in search, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/tracks/top-10/" + offset + "?search=" + search);
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetTotdTopTop100s(const string &in search, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/tracks/top-100/" + offset + "?search=" + search);
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
+    array<Api::TopPlayer@> GetTotdTopTop1000s(const string &in search, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/tracks/top-1000/" + offset + "?search=" + search);
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopPlayer@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopPlayer@> top = array<Api::TopPlayer@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopPlayer(statsJson[i]));
+        }
+        return top;
+    }
+
     private Json::Value @GetJson(const string &in url) const {
+        if (dev.LogAPIRequests()) {
+            print("[Api::Client::GetJson] Request: " + url);
+        }
+
         Net::HttpRequest@ request = Net::HttpRequest(url);
         await(request.Start());
 
@@ -173,8 +311,8 @@ class Client {
         return types;
     }
     
-    private string baseUrl = "https://cotd.io/api";
+    private string baseUrl;
 }
-Client client;
+Client @client;
 
 }

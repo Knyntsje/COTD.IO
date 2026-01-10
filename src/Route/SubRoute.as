@@ -6,20 +6,21 @@ class SubRoute : Route {
     }
 
     bool Render(bool forceActive = false) override {
+        bool isActive = true;
         if (UI::Button(Icons::ArrowLeft + " Back##route" + id)) {
-            parentRoute.SetSubRoute(null);
+            isActive = false;
         }
 
         UI::SameLine();
         if (UI::Button(Icons::Refresh + "##route" + id)) {
-            DataChanged = true;
+            MarkDataChanged();
         }
 
         UI::SameLine();
         UI::Text(name);
 
         RenderRoute();
-        return forceActive;
+        return isActive;
     }
 }
 

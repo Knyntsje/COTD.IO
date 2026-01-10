@@ -13,10 +13,10 @@ class CupQualifierLeaderboard : Route {
         UI::SetNextItemWidth(-1);
         search = UI::InputTextWithHint("##search", "Search by player name, tag, etc...", search, DataChanged);
 
-        if (infiniteScroll.Begin(4)) {
+        if (infiniteScroll.Begin(3)) {
             UI::TableSetupScrollFreeze(0, 1);
 
-            UI::TableSetupColumn("##position");
+            UI::TableSetupColumn("");
             UI::TableSetupColumn("Player");
             UI::TableSetupColumn("Time");
 
@@ -46,8 +46,6 @@ class CupQualifierLeaderboard : Route {
                         UI::Text("\\$999(+" + Time::Format(entry.Score - leaderboard[0].Score) + ")");
                     }
                 }
-
-                UI::TableNextRow();
             }
 
             infiniteScroll.End();

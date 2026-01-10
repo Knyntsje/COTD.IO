@@ -28,7 +28,7 @@ class Totd : SubRoute {
         if (infiniteScroll.Begin(5)) {
             UI::TableSetupScrollFreeze(0, 1);
 
-            UI::TableSetupColumn("##position");
+            UI::TableSetupColumn("");
             UI::TableSetupColumn("Player");
             UI::TableSetupColumn("Time");
             UI::TableSetupColumn("When");
@@ -68,8 +68,6 @@ class Totd : SubRoute {
                         OpenBrowserURL("https://cotd.io/api/download/ghost/" + entry.MapRecordId);
                     }
                 }
-
-                UI::TableNextRow();
             }
 
             infiniteScroll.End();

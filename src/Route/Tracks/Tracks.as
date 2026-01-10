@@ -131,8 +131,6 @@ class Tracks : Route {
                         SetSubRoute(Route::Totd(totd));
                     }
                 }
-
-                UI::TableNextRow();
             }
 
             infiniteScroll.End();

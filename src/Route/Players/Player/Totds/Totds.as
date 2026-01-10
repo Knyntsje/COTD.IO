@@ -8,17 +8,15 @@ class PlayerTotds : Route {
     }
 
     protected void RenderRoute() override {
-        if (numberStatRenderer.Begin(numberStats)) {
-            numberStatRenderer.Render("Tracks played", "participated", "played_maps", "total_maps");
-            numberStatRenderer.Render("Top 10", "achieved", "top_10", "played_maps");
-            numberStatRenderer.Render("Top 100", "achieved", "top_100", "played_maps");
-            numberStatRenderer.Render("Top 1000", "achieved", "top_1000", "played_maps");
-            numberStatRenderer.End();
+        if (numberStatsRenderer.Begin(numberStats)) {
+            numberStatsRenderer.Render("Tracks played", "participated", "played_maps", "total_maps");
+            numberStatsRenderer.Render("Top 10", "achieved", "top_10", "played_maps");
+            numberStatsRenderer.Render("Top 100", "achieved", "top_100", "played_maps");
+            numberStatsRenderer.Render("Top 1000", "achieved", "top_1000", "played_maps");
+            numberStatsRenderer.End();
         }
 
         if (UI::BeginTable("##totds", 3)) {
-            UI::TableSetupScrollFreeze(0, 1);
-
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Track");
             UI::TableSetupColumn("Position");
@@ -38,8 +36,6 @@ class PlayerTotds : Route {
                 if (UI::TableNextColumn()) {
                     UI::Text(tostring(totd.Position.Get()));
                 }
-
-                UI::TableNextRow();
             }
 
             UI::EndTable();
@@ -71,7 +67,7 @@ class PlayerTotds : Route {
     private int offset = 0;
     private UI::InfiniteScroll @infiniteScroll;
 
-    private UI::NumberStatRenderer numberStatRenderer;
+    private UI::NumberStatsRenderer numberStatsRenderer;
 
     private array<const Api::PlayerTotd@> totds;
     private Json::Value @numberStats;

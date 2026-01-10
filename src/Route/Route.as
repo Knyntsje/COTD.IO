@@ -46,7 +46,9 @@ class Route {
             isActive = true;
             if (UI::BeginChild("##" + name + "##route")) {
                 if (subRoute !is null) {
-                    subRoute.Render(forceActive);
+                    if (!subRoute.Render(forceActive)) {
+                        SetSubRoute(null);
+                    }
                 }
                 else {
                     RenderRoute();
@@ -59,15 +61,7 @@ class Route {
     }
 
     void SetSubRoute(Route @_subRoute) {
-        if (_subRoute !is null) {
-            _subRoute.SetParentRoute(this);
-        }
-
         @subRoute = _subRoute;
-    }
-
-    protected void SetParentRoute(Route @_parentRoute) {
-        @parentRoute = _parentRoute;
     }
 
     protected void RenderRoute() {
@@ -96,7 +90,6 @@ class Route {
     protected bool dataChanged;
 
     protected Route @subRoute;
-    protected Route @parentRoute;
 
     protected string id;
     protected string name;
