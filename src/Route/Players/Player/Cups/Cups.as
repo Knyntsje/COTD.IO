@@ -4,7 +4,7 @@ class PlayerCups : Route {
     PlayerCups(const Api::Player @_player) {
         super("player/cups", "Cup of the Day");
         @player = _player;
-        @infiniteScroll = UI::InfiniteScrollTable("##cups", UI::InfiniteScrollCallback(MarkDirty));
+        @infiniteScroll = UI::InfiniteScroll(UI::InfiniteScrollCallback(MarkDirty));
     }
 
     protected void RenderRoute() override {
@@ -21,14 +21,13 @@ class PlayerCups : Route {
             numberStatRenderer.End();
         }
 
-        if (infiniteScroll.Begin(5)) {
+        if (UI::BeginTable("##cups", 4)) {
             UI::TableSetupScrollFreeze(0, 1);
 
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Type");
             UI::TableSetupColumn("Track");
             UI::TableSetupColumn("Position");
-            UI::TableSetupColumn("");
 
             UI::TableHeadersRow();
             foreach (const Api::PlayerCup @cup, const int index : cups) {
@@ -41,7 +40,9 @@ class PlayerCups : Route {
                 }
 
                 if (UI::TableNextColumn()) {
-                    UI::Text(cup.Map.GetDisplayName());
+                    if (UI::Selectable(cup.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
+                        UI::window.Router.Goto("tracks", Route::Cup(Api::Totd(cup), cup.Type));
+                    }
                 }
 
                 if (UI::TableNextColumn()) {
@@ -50,16 +51,14 @@ class PlayerCups : Route {
                     UI::Text("\\$999Div " + tostring(cup.Position.GetDivision()));
                 }
 
-                if (UI::TableNextColumn()) {
-                    if (UI::Button(Icons::Eye + "##cup" + index)) {
-                        UI::window.Router.Goto("tracks", Route::Cup(Api::Totd(cup), cup.Type));
-                    }
-                }
-
                 UI::TableNextRow();
             }
 
-            infiniteScroll.End();
+            UI::EndTable();
+        }
+
+        if (infiniteScroll.CheckScroll()) {
+            UI::Text("\\$999" + Icons::Spinner + " Loading more cups...");
         }
     }
 
@@ -83,7 +82,7 @@ class PlayerCups : Route {
 
     private int offset = 0;
     private array<Api::e_CupType> cupTypes;
-    private UI::InfiniteScrollTable @infiniteScroll;
+    private UI::InfiniteScroll @infiniteScroll;
 
     private UI::NumberStatRenderer numberStatRenderer;
 

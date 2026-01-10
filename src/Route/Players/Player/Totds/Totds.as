@@ -4,7 +4,7 @@ class PlayerTotds : Route {
     PlayerTotds(const Api::Player @_player) {
         super("player/totds", "Track of the Day");
         @player = _player;
-        @infiniteScroll = UI::InfiniteScrollTable("##totds", UI::InfiniteScrollCallback(MarkDirty));
+        @infiniteScroll = UI::InfiniteScroll(UI::InfiniteScrollCallback(MarkDirty));
     }
 
     protected void RenderRoute() override {
@@ -16,13 +16,12 @@ class PlayerTotds : Route {
             numberStatRenderer.End();
         }
 
-        if (infiniteScroll.Begin(5)) {
+        if (UI::BeginTable("##totds", 3)) {
             UI::TableSetupScrollFreeze(0, 1);
 
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Track");
             UI::TableSetupColumn("Position");
-            UI::TableSetupColumn("");
 
             UI::TableHeadersRow();
             foreach (const Api::PlayerTotd @totd, const int index : totds) {
@@ -31,23 +30,23 @@ class PlayerTotds : Route {
                 }
 
                 if (UI::TableNextColumn()) {
-                    UI::Text(totd.Map.GetDisplayName());
+                    if (UI::Selectable(totd.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
+                        UI::window.Router.Goto("tracks", Route::Totd(totd));
+                    }
                 }
 
                 if (UI::TableNextColumn()) {
                     UI::Text(tostring(totd.Position.Get()));
                 }
 
-                if (UI::TableNextColumn()) {
-                    if (UI::Button(Icons::Eye + "##totd" + index)) {
-                        UI::window.Router.Goto("tracks", Route::Totd(totd));
-                    }
-                }
-
                 UI::TableNextRow();
             }
 
-            infiniteScroll.End();
+            UI::EndTable();
+        }
+
+        if (infiniteScroll.CheckScroll()) {
+            UI::Text("\\$999" + Icons::Spinner + " Loading more tracks...");
         }
     }
 
@@ -70,7 +69,7 @@ class PlayerTotds : Route {
     }
 
     private int offset = 0;
-    private UI::InfiniteScrollTable @infiniteScroll;
+    private UI::InfiniteScroll @infiniteScroll;
 
     private UI::NumberStatRenderer numberStatRenderer;
 

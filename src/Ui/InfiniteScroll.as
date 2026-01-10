@@ -8,15 +8,17 @@ class InfiniteScroll {
         triggerThreshold = threshold;
     }
     
-    void CheckScroll() {
+    bool CheckScroll() {
         if (!hasMore || isLoading || onLoadMore is null) {
-            return;
+            return isLoading;
         }
 
         if (UI::GetScrollY() >= UI::GetScrollMaxY() * triggerThreshold) {
             isLoading = true;
             onLoadMore();
         }
+
+        return isLoading;
     }
     
     void SetLoadingComplete(bool moreDataAvailable = true) {
@@ -46,9 +48,7 @@ class InfiniteScrollTable : InfiniteScroll {
     }
     
     void End() {
-        CheckScroll();
-
-        if (isLoading) {
+        if (CheckScroll()) {
             if (UI::TableNextColumn()) {
                 UI::Text("\\$999" + Icons::Spinner);
             }
