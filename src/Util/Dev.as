@@ -1,4 +1,8 @@
 class Dev {
+    bool get_IsDevBuild() {
+        return isDevBuild;
+    }
+
     bool UseLocalAPI() {
         return isDevBuild && Settings::Dev::USE_LOCAL_API;
     }

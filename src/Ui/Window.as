@@ -7,9 +7,7 @@ class Window {
         router.AddRoute(Route::Tracks());
         router.AddRoute(Route::Players());
 
-        if (Meta::ExecutingPlugin().Version == "dev") {
-            isOpen = true;
-        }
+        isOpen = dev.IsDevBuild;
     }
 
     bool GetIsOpen() {
@@ -33,7 +31,7 @@ class Window {
         bool reset = false;
         if (UI::Begin(Icons::Trophy + " COTD.IO", isOpen, flags)) {
             if (player !is null && UI::BeginMenuBar()) {
-                if (Meta::ExecutingPlugin().Version == "dev") {
+                if (dev.IsDevBuild) {
                     if (UI::BeginMenu("Dev")) {
                         if (UI::MenuItem("Local API", "", Settings::Dev::USE_LOCAL_API)) {
                             Settings::Dev::USE_LOCAL_API = !Settings::Dev::USE_LOCAL_API;
@@ -58,7 +56,7 @@ class Window {
 
         if (reset) {
             @Api::client = Api::Client();
-            window = Window();
+            @window = Window();
         }
     }
 
@@ -77,12 +75,12 @@ class Window {
         return router;
     }
 
-    private bool isOpen = false;
+    private bool isOpen;
     private Route::Router @router;
 
     private Api::Player @player;
     private bool loadedPlayer = false;
 }
-Window window;
+Window @window;
 
 }

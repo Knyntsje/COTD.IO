@@ -1,5 +1,6 @@
 void Main() {
 	@Api::client = Api::Client();
+	@UI::window = UI::Window();
 	startnew(Update);
 }
 
