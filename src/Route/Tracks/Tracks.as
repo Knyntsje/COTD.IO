@@ -9,18 +9,7 @@ class Tracks : Route {
         selectedYear = timeInfo.Year;
         selectedMonth = timeInfo.Month;
 
-        monthNames.InsertLast("January");
-        monthNames.InsertLast("February");
-        monthNames.InsertLast("March");
-        monthNames.InsertLast("April");
-        monthNames.InsertLast("May");
-        monthNames.InsertLast("June");
-        monthNames.InsertLast("July");
-        monthNames.InsertLast("August");
-        monthNames.InsertLast("September");
-        monthNames.InsertLast("October");
-        monthNames.InsertLast("November");
-        monthNames.InsertLast("December");
+        monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     }
 
     protected void RenderRoute() override {
