@@ -7,17 +7,20 @@ class SubRoute : Route {
 
     bool Render(bool forceActive = false) override {
         bool isActive = true;
-        if (UI::Button(Icons::ArrowLeft + " Back##route" + id)) {
-            isActive = false;
-        }
+        if (UI::BeginChild("##subRoute" + id, vec2(0, 32), UI::ChildFlags::FrameStyle)) {
+            if (UI::Button(Icons::ArrowLeft + " Back##route" + id)) {
+                isActive = false;
+            }
 
-        UI::SameLine();
-        if (UI::Button(Icons::Refresh + "##route" + id)) {
-            MarkDataChanged();
-        }
+            UI::SameLine();
+            if (UI::Button(Icons::Refresh + "##route" + id)) {
+                MarkDataChanged();
+            }
 
-        UI::SameLine();
-        UI::Text(name);
+            UI::SameLine();
+            UI::Text(name);
+        }
+        UI::EndChild();
 
         RenderRoute();
         return isActive;
