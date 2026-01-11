@@ -21,6 +21,18 @@ class PlayerCups : Route {
             numberStatsRenderer.End();
         }
 
+        UI::Columns(2, "", false);
+        {
+            RenderMedianPositions();
+            UI::NextColumn();
+            RenderBestPositions();
+            UI::NextColumn();        
+            RenderDivDistribution();        
+            UI::NextColumn();
+            RenderPositionDistribution();
+        }
+        UI::Columns(1);
+
         if (UI::BeginTable("##cups", 4)) {
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Type");
@@ -58,6 +70,45 @@ class PlayerCups : Route {
         }
     }
 
+    void RenderMedianPositions() {      
+        if (medianPositions !is null && UI::Plot::BeginPlot("Median positions", vec2(-1, 0), UI::Plot::PlotFlags::NoInputs)) {
+            UI::Plot::SetupAxes("Month", "", UI::Plot::AxisFlags::NoTickMarks, UI::Plot::AxisFlags::AutoFit | UI::Plot::AxisFlags::NoTickMarks);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::X1, 0.5, 12.5, UI::Plot::Cond::Always);
+            UI::Plot::PlotBars("2025", medianPositions.LastYear, 0.35, 0.825);
+            UI::Plot::PlotBars("2026", medianPositions.ThisYear, 0.35, 1.175);            
+            UI::Plot::EndPlot();
+        }
+    }
+
+    void RenderBestPositions() {
+        if (bestPositions !is null && UI::Plot::BeginPlot("Best positions", vec2(-1, 0), UI::Plot::PlotFlags::NoInputs | UI::Plot::PlotFlags::NoLegend)) {
+            UI::Plot::SetupAxes("Position", "", UI::Plot::AxisFlags::AutoFit | UI::Plot::AxisFlags::NoTickMarks, UI::Plot::AxisFlags::AutoFit | UI::Plot::AxisFlags::NoTickMarks);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::X1, bestPositions.MinPosition - 0.5, bestPositions.MaxPosition + 0.5, UI::Plot::Cond::Always);
+            UI::Plot::PlotBars("Best Positions", bestPositions.Amounts, 0.67, 1.0);
+            UI::Plot::EndPlot();
+        }
+    }
+
+    void RenderDivDistribution() {
+        if (divDistribution !is null && UI::Plot::BeginPlot("Division distribution", vec2(-1, 0), UI::Plot::PlotFlags::NoInputs)) {
+            UI::Plot::SetupAxes("", "", UI::Plot::AxisFlags::NoDecorations, UI::Plot::AxisFlags::NoDecorations);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::X1, -1, 1, UI::Plot::Cond::Always);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::Y1, -1, 1, UI::Plot::Cond::Always);                
+            UI::Plot::PlotPieChart(divDistribution.Labels, divDistribution.Amounts, 0.0, 0.0, 0.9, "%.f");                
+            UI::Plot::EndPlot();
+        }
+    }
+
+    void RenderPositionDistribution() {
+        if (positionDistribution !is null && UI::Plot::BeginPlot("Position distribution", vec2(-1, 0), UI::Plot::PlotFlags::NoInputs)) {
+            UI::Plot::SetupAxes("", "", UI::Plot::AxisFlags::NoDecorations, UI::Plot::AxisFlags::NoDecorations);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::X1, -1, 1, UI::Plot::Cond::Always);
+            UI::Plot::SetupAxisLimits(UI::Plot::Axis::Y1, -1, 1, UI::Plot::Cond::Always);            
+            UI::Plot::PlotPieChart(positionDistribution.Labels, positionDistribution.Amounts, 0.0, 0.0, 0.9, "%.f");                
+            UI::Plot::EndPlot();
+        }
+    }
+
     protected void Reset() override {
         offset = 0;
         cups = array<const Api::PlayerCup@>();
@@ -67,6 +118,10 @@ class PlayerCups : Route {
     protected void Load() override {
         if (offset == 0) {
             @numberStats = Api::client.GetPlayerCupNumberStats(player.AccountId, cupTypes);
+            @medianPositions = Api::client.GetPlayerCupMedianPositions(player.AccountId, cupTypes);
+            @bestPositions = Api::client.GetPlayerCupBestPositions(player.AccountId, cupTypes);
+            @positionDistribution = Api::client.GetPlayerPositionDistribution(player.AccountId, cupTypes);
+            @divDistribution = Api::client.GetPlayerDivDistribution(player.AccountId, cupTypes);
         }
 
         const array<Api::PlayerCup@> newCups = Api::client.GetPlayerCups(player.AccountId, cupTypes, offset, offset);
@@ -83,7 +138,13 @@ class PlayerCups : Route {
     private UI::NumberStatsRenderer numberStatsRenderer;
 
     private array<const Api::PlayerCup@> cups;
+
     private Json::Value @numberStats;
+    private Api::MedianPositions @medianPositions;
+    private Api::BestPositions @bestPositions;
+    private Api::PositionDistribution @positionDistribution;
+    private Api::DivDistribution @divDistribution;
+
     private const Api::Player @player;
 }
 

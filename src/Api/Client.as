@@ -130,6 +130,22 @@ class Client {
         return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/number?types=" + FormatCupTypes(cupTypes));
     }
 
+    Api::MedianPositions GetPlayerCupMedianPositions(const string &in accountId, const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/positions/median?types=" + FormatCupTypes(cupTypes));
+    }
+
+    Api::BestPositions GetPlayerCupBestPositions(const string &in accountId, const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/positions/best?types=" + FormatCupTypes(cupTypes));
+    }
+
+    Api::PositionDistribution GetPlayerPositionDistribution(const string &in accountId, const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/positions/distribution?types=" + FormatCupTypes(cupTypes));
+    }
+
+    Api::DivDistribution GetPlayerDivDistribution(const string &in accountId, const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/cotds/stats/divs/distribution?types=" + FormatCupTypes(cupTypes));
+    }
+
     array<PlayerTotd@> GetPlayerTotds(const string &in accountId, const int offset, int &out newOffset) const {
         const Json::Value @json = GetJson(baseUrl + "/players/" + accountId + "/totds/" + offset);
         if (json.GetType() != Json::Type::Object) {
