@@ -16,6 +16,14 @@ class PlayerTotds : Route {
             numberStatsRenderer.End();
         }
 
+        UI::Columns(2, "", false);
+        {
+            UI::MedianPositions(medianPositions);
+            UI::NextColumn();
+            UI::BestPositions(bestPositions);
+        }
+        UI::Columns(1);
+
         if (UI::BeginTable("##totds", 3)) {
             UI::TableSetupColumn("Date");
             UI::TableSetupColumn("Track");
@@ -55,6 +63,8 @@ class PlayerTotds : Route {
     protected void Load() override {
         if (offset == 0) {
             @numberStats = Api::client.GetPlayerTotdNumberStats(player.AccountId);
+            @medianPositions = Api::client.GetPlayerTotdMedianPositions(player.AccountId);
+            @bestPositions = Api::client.GetPlayerTotdBestPositions(player.AccountId);
         }
 
         const array<Api::PlayerTotd@> newTotds = Api::client.GetPlayerTotds(player.AccountId, offset, offset);
@@ -70,7 +80,11 @@ class PlayerTotds : Route {
     private UI::NumberStatsRenderer numberStatsRenderer;
 
     private array<const Api::PlayerTotd@> totds;
+
     private Json::Value @numberStats;
+    private Api::MedianPositions @medianPositions;
+    private Api::BestPositions @bestPositions;
+
     private const Api::Player @player;
 }
 

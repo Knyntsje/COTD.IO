@@ -167,6 +167,14 @@ class Client {
         return GetJson(baseUrl + "/players/" + accountId + "/totds/stats/number");
     }
 
+    Api::MedianPositions GetPlayerTotdMedianPositions(const string &in accountId) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/totds/stats/positions/median");
+    }
+
+    Api::BestPositions GetPlayerTotdBestPositions(const string &in accountId) const {
+        return GetJson(baseUrl + "/players/" + accountId + "/totds/stats/positions/best");
+    }
+
     array<Api::TopPlayer@> GetCupTopWins(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
         const Json::Value @json = GetJson(baseUrl + "/stats/cups/wins/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
         if (json.GetType() != Json::Type::Object) {
