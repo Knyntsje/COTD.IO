@@ -1,0 +1,7 @@
+{
+    "triggerTaskOnSave.tasks": {
+        "Openplanet Remote Build: Load/Reload from User Folder": [
+            "src/**/*.as"
+        ]
+    }
+}

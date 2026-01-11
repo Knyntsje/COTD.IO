@@ -23,14 +23,16 @@ class Window {
 
         UI::SetNextWindowSize(800, 500);
 
+        const bool showMenuBar = dev.IsDevBuild || player !is null;
+
         int flags = UI::WindowFlags::NoCollapse;
-        if (player !is null) {
+        if (showMenuBar) {
             flags |= UI::WindowFlags::MenuBar;
         }
 
         bool reset = false;
         if (UI::Begin(Icons::Trophy + " COTD.IO", isOpen, flags)) {
-            if (player !is null && UI::BeginMenuBar()) {
+            if (showMenuBar && UI::BeginMenuBar()) {
                 if (dev.IsDevBuild) {
                     if (UI::BeginMenu("Dev")) {
                         if (UI::MenuItem("Local API", "", Settings::Dev::USE_LOCAL_API)) {
@@ -44,8 +46,10 @@ class Window {
                     }
                 }
 
-                if (UI::MenuItem(player.GetDisplayName())) {
-                    router.Goto("players", Route::Player(player));
+                if (player !is null) {
+                    if (UI::MenuItem(player.GetDisplayName())) {
+                        router.Goto("players", Route::Player(player));
+                    }
                 }
                 UI::EndMenuBar();
             }
