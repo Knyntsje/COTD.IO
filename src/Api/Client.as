@@ -243,6 +243,27 @@ class Client {
         return top;
     }
 
+    Api::MedianPlayers GetCupMedianPlayers(const array<e_CupType> &in cupTypes) const {
+        return GetJson(baseUrl + "/stats/cups/players/median?types=" + FormatCupTypes(cupTypes));
+    }
+
+    array<Api::TopCup@> GetCupTopCups(const string &in search, const array<e_CupType> &in cupTypes, const int offset, int &out newOffset) const {
+        const Json::Value @json = GetJson(baseUrl + "/stats/cups/most-played/" + offset + "?search=" + search + "&types=" + FormatCupTypes(cupTypes));
+        if (json.GetType() != Json::Type::Object) {
+            return array<Api::TopCup@>();
+        }
+        
+        newOffset = json["offset"];
+        
+        array<Api::TopCup@> top = array<Api::TopCup@>();
+
+        const Json::Value @statsJson = json["stats"];
+        for (uint i = 0; i < statsJson.Length; ++i) {
+            top.InsertLast(Api::TopCup(statsJson[i]));
+        }
+        return top;
+    }
+
     array<Api::TopPlayer@> GetTotdTopWrs(const string &in search, const int offset, int &out newOffset) const {
         const Json::Value @json = GetJson(baseUrl + "/stats/tracks/wrs/" + offset + "?search=" + search);
         if (json.GetType() != Json::Type::Object) {
