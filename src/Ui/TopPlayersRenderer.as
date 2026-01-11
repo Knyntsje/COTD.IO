@@ -7,7 +7,7 @@ class TopPlayersRenderer : ColumnRenderer {
     
     bool Render(const string &in title, const array<Api::TopPlayer@> &in topPlayers) {
         bool viewAll = false;
-        if (UI::BeginChild("##topPlayers" + title, vec2(-1, 100.f))) {
+        if (UI::BeginChild("##topPlayers" + title, vec2(-1, 104.f), UI::ChildFlags::FrameStyle)) {
             UI::Text(title);
 
             UI::SameLine();

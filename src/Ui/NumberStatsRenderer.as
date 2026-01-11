@@ -22,7 +22,7 @@ class NumberStatsRenderer : ColumnRenderer {
         const int value = data[valueKey];
         const int total = data[totalKey];
 
-        if (UI::BeginChild("##numberStat" + title, vec2(-1, 80.f))) {
+        if (UI::BeginChild("##numberStat" + title, vec2(-1, 84.f), UI::ChildFlags::FrameStyle)) {
             UI::Text(title);
             UI::PushFontSize(32);
             UI::Text(value + " \\$999/ " + total);
