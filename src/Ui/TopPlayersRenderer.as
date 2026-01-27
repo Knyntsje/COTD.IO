@@ -11,7 +11,7 @@ class TopPlayersRenderer : ColumnRenderer {
             UI::Text(title);
 
             UI::SameLine();
-            UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - Draw::MeasureString("View all").x));
+            UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - UI::MeasureString("View all").x));
             if (UI::TextLink("View all")) {
                 viewAll = true;
             }
@@ -31,7 +31,7 @@ class TopPlayersRenderer : ColumnRenderer {
                 UI::SameLine();
 
                 const string quantityString = tostring(topPlayer.Quantity);
-                UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - Draw::MeasureString(quantityString).x));
+                UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - UI::MeasureString(quantityString).x));
                 UI::Text(quantityString);
             }
         }

@@ -6,7 +6,7 @@ bool TopCups(const array<Api::TopCup@> &in topCups) {
         UI::Text("Most played cups");
 
         UI::SameLine();
-        UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - Draw::MeasureString("View all").x));
+        UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - UI::MeasureString("View all").x));
         if (UI::TextLink("View all")) {
             viewAll = true;
         }
@@ -22,7 +22,7 @@ bool TopCups(const array<Api::TopCup@> &in topCups) {
             UI::SameLine();
 
             const string quantityString = tostring(topCup.NumPlayers);
-            UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - Draw::MeasureString(quantityString).x));
+            UI::SetCursorPosX(UI::GetCursorPos().x + Math::Max(0.f, UI::GetContentRegionAvail().x - UI::MeasureString(quantityString).x));
             UI::Text(quantityString);
         }
     }
