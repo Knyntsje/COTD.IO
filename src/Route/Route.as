@@ -64,6 +64,36 @@ class Route {
         @subRoute = _subRoute;
     }
 
+    Router @GetNavigationRouter() {
+        return null;
+    }
+
+    NavigationState @CaptureNavigation() {
+        NavigationState @state = NavigationState();
+        @state.route = this;
+        if (subRoute !is null) {
+            @state.subRoute = subRoute.CaptureNavigation();
+        }
+
+        Router @nested = GetNavigationRouter();
+        if (nested !is null) {
+            @state.tab = nested.CaptureNavigation();
+        }
+        return state;
+    }
+
+    void RestoreNavigation(NavigationState @state) {
+        @subRoute = state.subRoute is null ? null : state.subRoute.route;
+        if (subRoute !is null) {
+            subRoute.RestoreNavigation(state.subRoute);
+        }
+
+        Router @nested = GetNavigationRouter();
+        if (nested !is null && state.tab !is null) {
+            nested.RestoreNavigation(state.tab);
+        }
+    }
+
     protected void RenderRoute() {
         throw("Route::RenderRoute not implemented");
     }

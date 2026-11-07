@@ -1,7 +1,7 @@
-const int AVATAR_CACHE_WORKERS = 2;
+const uint AVATAR_CACHE_WORKERS = 2;
 
 void Main() {
-	for (int i = 0; i < AVATAR_CACHE_WORKERS; i++) {
+	for (uint i = 0; i < AVATAR_CACHE_WORKERS; i++) {
 		startnew(Api::AvatarCache::Worker);
 	}
 

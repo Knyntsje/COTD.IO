@@ -9,6 +9,10 @@ class Stats : Route {
         router.AddRoute(::Route::StatsTotds());
     }
 
+    Router @GetNavigationRouter() override {
+        return router;
+    }
+
     void Update() override {
         router.Update();
         Route::Update();

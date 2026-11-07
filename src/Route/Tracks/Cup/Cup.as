@@ -11,6 +11,10 @@ class Cup : SubRoute {
         router.AddRoute(::Route::CupQualifierLeaderboard(totd.Map, cupDataEntry));
     }
 
+    Router @GetNavigationRouter() override {
+        return router;
+    }
+
     void Update() override {
         router.Update();
         SubRoute::Update();

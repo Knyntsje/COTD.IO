@@ -10,6 +10,10 @@ class Player : SubRoute {
         router.AddRoute(::Route::PlayerTotds(_player));
     }
 
+    Router @GetNavigationRouter() override {
+        return router;
+    }
+
     void Update() override {
         router.Update();
         SubRoute::Update();

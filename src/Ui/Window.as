@@ -54,13 +54,32 @@ class Window {
                 UI::EndMenuBar();
             }
 
+            HandleNavigationInput();
             router.Render();
+            history.Record(router.CaptureNavigation());
             UI::End();
         }
 
         if (reset) {
             @Api::client = Api::Client();
             @window = Window();
+        }
+    }
+
+    private void HandleNavigationInput() {
+        if (!UI::IsWindowFocused(UI::FocusedFlags::RootAndChildWindows)) {
+            return;
+        }
+
+        const bool alt = UI::IsKeyDown(UI::Key::LeftAlt) || UI::IsKeyDown(UI::Key::RightAlt);
+        const bool back = UI::IsKeyPressed(UI::Key::MouseX1) || UI::IsKeyPressed(UI::Key::AppBack) || (alt && UI::IsKeyPressed(UI::Key::LeftArrow));
+        const bool forward = UI::IsKeyPressed(UI::Key::MouseX2) || UI::IsKeyPressed(UI::Key::AppForward) || (alt && UI::IsKeyPressed(UI::Key::RightArrow));
+
+        if (back) {
+            history.Navigate(router, -1);
+        }
+        else if (forward) {
+            history.Navigate(router, 1);
         }
     }
 
@@ -79,6 +98,7 @@ class Window {
         return router;
     }
 
+    private Route::NavigationHistory history;
     private bool isOpen;
     private Route::Router @router;
 
