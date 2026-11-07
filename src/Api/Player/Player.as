@@ -41,24 +41,7 @@ class Player {
     }
 
     UI::Texture @get_Avatar() const {
-        if (!avatarLoaded) {
-            startnew(CoroutineFunc(LoadAvatar));
-        }
-        return @avatar;
-    }
-
-    private void LoadAvatar() {
-        avatarLoaded = true;
-        
-        Net::HttpRequest @request = Net::HttpRequest("https://wsrv.nl/?url=https://avatars.ubisoft.com/" + uplayUid + "/default_146_146.png?w=18&h=18&fit=cover&mask=circle");
-        await(request.Start());
-
-        if (request.ResponseCode() / 100 != 2 || request.Buffer().GetSize() <= 0) {
-            warn("[Api::Player::LoadAvatar] Avatar download request failed. Code: " + request.ResponseCode() + " Error: " + request.Error());
-            return;
-	    }
-
-        @avatar = UI::LoadTexture(request.Buffer());
+        return AvatarCache::Get(uplayUid);
     }
 
     private string accountId;
@@ -66,9 +49,6 @@ class Player {
     private string zoneId;
     private string name;
     private string tag;
-
-    private UI::Texture @avatar = null;
-    private bool avatarLoaded = false;
 }
 
 }

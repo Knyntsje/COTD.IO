@@ -1,4 +1,10 @@
+const int AVATAR_CACHE_WORKERS = 2;
+
 void Main() {
+	for (int i = 0; i < AVATAR_CACHE_WORKERS; i++) {
+		startnew(Api::AvatarCache::Worker);
+	}
+
 	@Api::client = Api::Client();
 	@UI::window = UI::Window();
 	startnew(Update);
@@ -12,6 +18,7 @@ void Update() {
 }
 
 void RenderInterface() {
+	Api::AvatarCache::BeginFrame();
 	UI::window.Render();
 }
 
