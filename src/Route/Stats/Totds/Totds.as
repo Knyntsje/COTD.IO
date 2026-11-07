@@ -9,19 +9,19 @@ class StatsTotds : Route {
     protected void RenderRoute() override {
         if (topPlayersRenderer.Begin()) {
             if (topPlayersRenderer.Render("Most world records", topWrs)) {
-                SetSubRoute(Route::TopPlayers("Most world records", Route::TopPlayersLoadCallback(LoadTopWrs)));
+                SetSubRoute(::Route::TopPlayers("Most world records", ::Route::TopPlayersLoadCallback(LoadTopWrs)));
             }
 
             if (topPlayersRenderer.Render("Most top 10", topTop10s)) {
-                SetSubRoute(Route::TopPlayers("Most top 10", Route::TopPlayersLoadCallback(LoadTopTop10s)));
+                SetSubRoute(::Route::TopPlayers("Most top 10", ::Route::TopPlayersLoadCallback(LoadTopTop10s)));
             }
 
             if (topPlayersRenderer.Render("Most top 100", topTop100s)) {
-                SetSubRoute(Route::TopPlayers("Most top 100", Route::TopPlayersLoadCallback(LoadTopTop100s)));
+                SetSubRoute(::Route::TopPlayers("Most top 100", ::Route::TopPlayersLoadCallback(LoadTopTop100s)));
             }
 
             if (topPlayersRenderer.Render("Most top 1000", topTop1000s)) {
-                SetSubRoute(Route::TopPlayers("Most top 1000", Route::TopPlayersLoadCallback(LoadTopTop1000s)));
+                SetSubRoute(::Route::TopPlayers("Most top 1000", ::Route::TopPlayersLoadCallback(LoadTopTop1000s)));
             }
             topPlayersRenderer.End();
         }

@@ -78,14 +78,14 @@ class Tracks : Route {
 
                 if (UI::TableNextColumn()) {
                     if (UI::ClickableText(totd.Map.Author.GetDisplayName())) {
-                        UI::window.Router.Goto("players", Route::Player(totd.Map.Author));
+                        UI::window.Router.Goto("players", ::Route::Player(totd.Map.Author));
                     }
                 }
 
                 if (UI::TableNextColumn()) {
                     if (totd.CupData.Day !is null) {
                         if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Day.NumPlayers) + "##day" + index)) {
-                            SetSubRoute(Route::Cup(totd, Api::e_CupType::Day));
+                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Day));
                         }
                     }
                     else {
@@ -96,7 +96,7 @@ class Tracks : Route {
                 if (UI::TableNextColumn()) {
                     if (totd.CupData.Night !is null) {
                         if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Night.NumPlayers) + "##night" + index)) {
-                            SetSubRoute(Route::Cup(totd, Api::e_CupType::Night));
+                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Night));
                         }
                     }
                     else {
@@ -107,7 +107,7 @@ class Tracks : Route {
                 if (UI::TableNextColumn()) {
                     if (totd.CupData.Morning !is null) {
                         if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Morning.NumPlayers) + "##morning" + index)) {
-                            SetSubRoute(Route::Cup(totd, Api::e_CupType::Morning));
+                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Morning));
                         }
                     }
                     else {
@@ -117,7 +117,7 @@ class Tracks : Route {
 
                 if (UI::TableNextColumn()) {
                     if (UI::Button(Icons::Map + "##totd" + index)) {
-                        SetSubRoute(Route::Totd(totd));
+                        SetSubRoute(::Route::Totd(totd));
                     }
                 }
             }

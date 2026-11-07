@@ -6,8 +6,8 @@ class Player : SubRoute {
         @player = _player;
 
         @router = Router();
-        router.AddRoute(Route::PlayerCups(_player));
-        router.AddRoute(Route::PlayerTotds(_player));
+        router.AddRoute(::Route::PlayerCups(_player));
+        router.AddRoute(::Route::PlayerTotds(_player));
     }
 
     void Update() override {

@@ -39,7 +39,7 @@ class TopCups : SubRoute {
 
                 if (UI::TableNextColumn()) {
                     if (UI::ClickableText(topCup.Map.GetDisplayName())) {
-                        UI::window.Router.Goto("tracks", Route::Cup(Api::Totd(topCup), topCup.Type));
+                        UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(topCup), topCup.Type));
                     }
                 }
 

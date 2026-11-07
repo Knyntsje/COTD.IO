@@ -7,8 +7,8 @@ class Cup : SubRoute {
         @cupDataEntry = _totd.CupData.GetCupDataEntry(_cupType);
 
         @router = Router();
-        router.AddRoute(Route::CupLeaderboard(cupDataEntry));
-        router.AddRoute(Route::CupQualifierLeaderboard(totd.Map, cupDataEntry));
+        router.AddRoute(::Route::CupLeaderboard(cupDataEntry));
+        router.AddRoute(::Route::CupQualifierLeaderboard(totd.Map, cupDataEntry));
     }
 
     void Update() override {

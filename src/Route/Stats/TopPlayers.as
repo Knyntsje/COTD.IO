@@ -34,7 +34,7 @@ class TopPlayers : SubRoute {
                     }
 
                     if (UI::ClickableText(topPlayer.Player.GetDisplayName())) {
-                        UI::window.Router.Goto("players", Route::Player(topPlayer.Player));
+                        UI::window.Router.Goto("players", ::Route::Player(topPlayer.Player));
                     }
                 }
 

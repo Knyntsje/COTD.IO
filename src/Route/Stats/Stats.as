@@ -5,8 +5,8 @@ class Stats : Route {
         super("stats", Icons::Home + " Stats");
 
         @router = Router();
-        router.AddRoute(Route::StatsCups());
-        router.AddRoute(Route::StatsTotds());
+        router.AddRoute(::Route::StatsCups());
+        router.AddRoute(::Route::StatsTotds());
     }
 
     void Update() override {

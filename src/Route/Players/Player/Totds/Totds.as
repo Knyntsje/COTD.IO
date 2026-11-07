@@ -37,7 +37,7 @@ class PlayerTotds : Route {
 
                 if (UI::TableNextColumn()) {
                     if (UI::Selectable(totd.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
-                        UI::window.Router.Goto("tracks", Route::Totd(totd));
+                        UI::window.Router.Goto("tracks", ::Route::Totd(totd));
                     }
                 }
 

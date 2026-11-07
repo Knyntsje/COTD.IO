@@ -14,19 +14,19 @@ class StatsCups : Route {
 
         if (topPlayersRenderer.Begin()) {
             if (topPlayersRenderer.Render("Most wins", topWins)) {
-                SetSubRoute(Route::TopPlayers("Most wins", Route::TopPlayersLoadCallback(LoadTopWins)));
+                SetSubRoute(::Route::TopPlayers("Most wins", ::Route::TopPlayersLoadCallback(LoadTopWins)));
             }
 
             if (topPlayersRenderer.Render("Most consecutive wins", topConsecutiveWins)) {
-                SetSubRoute(Route::TopPlayers("Most consecutive wins", Route::TopPlayersLoadCallback(LoadTopConsecutiveWins)));
+                SetSubRoute(::Route::TopPlayers("Most consecutive wins", ::Route::TopPlayersLoadCallback(LoadTopConsecutiveWins)));
             }
 
             if (topPlayersRenderer.Render("Most div 1", topDiv1)) {
-                SetSubRoute(Route::TopPlayers("Most div 1", Route::TopPlayersLoadCallback(LoadTopDiv1)));
+                SetSubRoute(::Route::TopPlayers("Most div 1", ::Route::TopPlayersLoadCallback(LoadTopDiv1)));
             }
 
             if (topPlayersRenderer.Render("Most consecutive div 1", topDiv1Consecutive)) {
-                SetSubRoute(Route::TopPlayers("Most consecutive div 1", Route::TopPlayersLoadCallback(LoadTopDiv1Consecutive)));
+                SetSubRoute(::Route::TopPlayers("Most consecutive div 1", ::Route::TopPlayersLoadCallback(LoadTopDiv1Consecutive)));
             }
 
             topPlayersRenderer.End();
@@ -37,7 +37,7 @@ class StatsCups : Route {
             RenderMedianPlayers();
             UI::NextColumn();
             if (UI::TopCups(topCups)) {
-                SetSubRoute(Route::TopCups("Most played cups", Route::TopCupsLoadCallback(LoadTopCups)));
+                SetSubRoute(::Route::TopCups("Most played cups", ::Route::TopCupsLoadCallback(LoadTopCups)));
             }
         }
         UI::Columns(1);

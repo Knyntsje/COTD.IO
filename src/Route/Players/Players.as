@@ -28,7 +28,7 @@ class Players : Route {
                     }
 
                     if (UI::Selectable(player.GetDisplayName() + "##" + player.AccountId, false, UI::SelectableFlags::SpanAllColumns)) {
-                        SetSubRoute(Route::Player(player));
+                        SetSubRoute(::Route::Player(player));
                     }
                 }
             }
