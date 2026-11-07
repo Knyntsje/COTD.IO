@@ -20,15 +20,16 @@ class Players : Route {
             UI::TableSetupColumn("Player");
 
             UI::TableHeadersRow();
-            foreach (const Api::Player @player : players) {
-                if (UI::TableNextColumn()) {
-                    if (player.Avatar !is null) {
-                        UI::Image(player.Avatar);
-                        UI::SameLine();
-                    }
+            UI::ListClipper clipper(int(players.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::Player @player = players[index];
+                    if (UI::TableNextColumn()) {
+                        UI::PlayerAvatar(player);
 
-                    if (UI::Selectable(player.GetDisplayName() + "##" + player.AccountId, false, UI::SelectableFlags::SpanAllColumns)) {
-                        SetSubRoute(::Route::Player(player));
+                        if (UI::Selectable(player.GetDisplayName() + "##" + player.AccountId, false, UI::SelectableFlags::SpanAllColumns)) {
+                            SetSubRoute(::Route::Player(player));
+                        }
                     }
                 }
             }

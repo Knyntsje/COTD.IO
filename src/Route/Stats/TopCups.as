@@ -24,27 +24,31 @@ class TopCups : SubRoute {
 
             UI::TableHeadersRow();
 
-            foreach (const Api::TopCup @topCup : topCups) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(topCup.Position));
-                }
-                
-                if (UI::TableNextColumn()) {
-                    UI::Text(Time::FormatStringUTC("%x", topCup.StartTs));
-                }
-
-                if (UI::TableNextColumn()) {
-                    UI::Text(Api::CupTypeToDisplayString(topCup.Type));
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (UI::ClickableText(topCup.Map.GetDisplayName())) {
-                        UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(topCup), topCup.Type));
+            UI::ListClipper clipper(int(topCups.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::TopCup @topCup = topCups[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(topCup.Position));
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(topCup.NumPlayers));
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Time::FormatStringUTC("%x", topCup.StartTs));
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Api::CupTypeToDisplayString(topCup.Type));
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        if (UI::ClickableText(topCup.Map.GetDisplayName())) {
+                            UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(topCup), topCup.Type));
+                        }
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(topCup.NumPlayers));
+                    }
                 }
             }
 

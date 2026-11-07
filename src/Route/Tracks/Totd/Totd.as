@@ -35,37 +35,38 @@ class Totd : SubRoute {
             UI::TableSetupColumn("");
 
             UI::TableHeadersRow();
-            foreach (const Api::MapLeaderboardEntry @entry, const int index : leaderboard) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(entry.Position));
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (entry.Player.Avatar !is null) {
-                        UI::Image(entry.Player.Avatar);
-                        UI::SameLine();
+            UI::ListClipper clipper(int(leaderboard.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::MapLeaderboardEntry @entry = leaderboard[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(entry.Position));
                     }
 
-                    if (UI::ClickableText(entry.Player.GetDisplayName())) {
-                        UI::window.Router.Goto("players", ::Route::Player(entry.Player));
+                    if (UI::TableNextColumn()) {
+                        UI::PlayerAvatar(entry.Player);
+
+                        if (UI::ClickableText(entry.Player.GetDisplayName())) {
+                            UI::window.Router.Goto("players", ::Route::Player(entry.Player));
+                        }
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(Api::MedalToColor(entry.Medal) + Time::Format(entry.Score));
-                    if (index > 0) {
-                        UI::SameLine();
-                        UI::Text("\\$999(+" + Time::Format(entry.Score - leaderboard[0].Score) + ")");
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Api::MedalToColor(entry.Medal) + Time::Format(entry.Score));
+                        if (index > 0) {
+                            UI::SameLine();
+                            UI::Text("\\$999(+" + Time::Format(entry.Score - leaderboard[0].Score) + ")");
+                        }
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(entry.When);
-                }
+                    if (UI::TableNextColumn()) {
+                        UI::Text(entry.When);
+                    }
 
-                if (UI::TableNextColumn()) {
-                    if (UI::Button(Icons::Download + "##" + entry.MapRecordId + "download")) {
-                        OpenBrowserURL("https://cotd.io/api/download/ghost/" + entry.MapRecordId);
+                    if (UI::TableNextColumn()) {
+                        if (UI::Button(Icons::Download + "##" + entry.MapRecordId + "download")) {
+                            OpenBrowserURL("https://cotd.io/api/download/ghost/" + entry.MapRecordId);
+                        }
                     }
                 }
             }

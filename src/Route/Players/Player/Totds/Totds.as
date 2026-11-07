@@ -30,19 +30,23 @@ class PlayerTotds : Route {
             UI::TableSetupColumn("Position");
 
             UI::TableHeadersRow();
-            foreach (const Api::PlayerTotd @totd, const int index : totds) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(Time::FormatStringUTC("%x", totd.DateTs));
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (UI::Selectable(totd.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
-                        UI::window.Router.Goto("tracks", ::Route::Totd(totd));
+            UI::ListClipper clipper(int(totds.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::PlayerTotd @totd = totds[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Time::FormatStringUTC("%x", totd.DateTs));
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(totd.Position.Get()));
+                    if (UI::TableNextColumn()) {
+                        if (UI::Selectable(totd.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
+                            UI::window.Router.Goto("tracks", ::Route::Totd(totd));
+                        }
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(totd.Position.Get()));
+                    }
                 }
             }
 

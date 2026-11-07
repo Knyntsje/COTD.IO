@@ -20,10 +20,7 @@ class TopPlayersRenderer : ColumnRenderer {
                 UI::NextColumn();
 
                 const Api::TopPlayer @topPlayer = topPlayers[i];
-                if (topPlayer.Player.Avatar !is null) {
-                    UI::Image(topPlayer.Player.Avatar, vec2(20, 20));
-                    UI::SameLine();
-                }
+                UI::PlayerAvatar(topPlayer.Player);
                 if (UI::ClickableText(topPlayer.Player.GetDisplayName())) {
                     UI::window.Router.Goto("players", Route::Player(topPlayer.Player));
                 }

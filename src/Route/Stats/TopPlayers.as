@@ -22,24 +22,25 @@ class TopPlayers : SubRoute {
 
             UI::TableHeadersRow();
 
-            foreach (const Api::TopPlayer @topPlayer : topPlayers) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(topPlayer.Position));
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (topPlayer.Player.Avatar !is null) {
-                        UI::Image(topPlayer.Player.Avatar);
-                        UI::SameLine();
+            UI::ListClipper clipper(int(topPlayers.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::TopPlayer @topPlayer = topPlayers[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(topPlayer.Position));
                     }
 
-                    if (UI::ClickableText(topPlayer.Player.GetDisplayName())) {
-                        UI::window.Router.Goto("players", ::Route::Player(topPlayer.Player));
-                    }
-                }
+                    if (UI::TableNextColumn()) {
+                        UI::PlayerAvatar(topPlayer.Player);
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(topPlayer.Quantity));
+                        if (UI::ClickableText(topPlayer.Player.GetDisplayName())) {
+                            UI::window.Router.Goto("players", ::Route::Player(topPlayer.Player));
+                        }
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(topPlayer.Quantity));
+                    }
                 }
             }
 

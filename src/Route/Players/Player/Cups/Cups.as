@@ -40,25 +40,29 @@ class PlayerCups : Route {
             UI::TableSetupColumn("Position");
 
             UI::TableHeadersRow();
-            foreach (const Api::PlayerCup @cup, const int index : cups) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(Time::FormatStringUTC("%x", cup.StartTs));
-                }
-
-                if (UI::TableNextColumn()) {
-                    UI::Text(Api::CupTypeToDisplayString(cup.Type));
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (UI::Selectable(cup.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
-                        UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(cup), cup.Type));
+            UI::ListClipper clipper(int(cups.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::PlayerCup @cup = cups[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Time::FormatStringUTC("%x", cup.StartTs));
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    UI::Text(tostring(cup.Position.Get()));
-                    UI::SameLine();
-                    UI::Text("\\$999Div " + tostring(cup.Position.GetDivision()));
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Api::CupTypeToDisplayString(cup.Type));
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        if (UI::Selectable(cup.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
+                            UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(cup), cup.Type));
+                        }
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        UI::Text(tostring(cup.Position.Get()));
+                        UI::SameLine();
+                        UI::Text("\\$999Div " + tostring(cup.Position.GetDivision()));
+                    }
                 }
             }
 

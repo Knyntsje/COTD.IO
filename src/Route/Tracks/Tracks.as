@@ -67,57 +67,61 @@ class Tracks : Route {
             UI::TableSetupColumn("TOTD");
 
             UI::TableHeadersRow();
-            foreach (const Api::Totd @totd, const int index : totds) {
-                if (UI::TableNextColumn()) {
-                    UI::Text(Time::FormatStringUTC("%x", totd.DateTs));
-                }
-
-                if (UI::TableNextColumn()) {
-                    UI::Text(totd.Map.GetDisplayName());
-                }
-
-                if (UI::TableNextColumn()) {
-                    if (UI::ClickableText(totd.Map.Author.GetDisplayName())) {
-                        UI::window.Router.Goto("players", ::Route::Player(totd.Map.Author));
+            UI::ListClipper clipper(int(totds.Length));
+            while (clipper.Step()) {
+                for (int index = clipper.DisplayStart; index < clipper.DisplayEnd; ++index) {
+                    const Api::Totd @totd = totds[index];
+                    if (UI::TableNextColumn()) {
+                        UI::Text(Time::FormatStringUTC("%x", totd.DateTs));
                     }
-                }
 
-                if (UI::TableNextColumn()) {
-                    if (totd.CupData.Day !is null) {
-                        if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Day.NumPlayers) + "##day" + index)) {
-                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Day));
+                    if (UI::TableNextColumn()) {
+                        UI::Text(totd.Map.GetDisplayName());
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        if (UI::ClickableText(totd.Map.Author.GetDisplayName())) {
+                            UI::window.Router.Goto("players", ::Route::Player(totd.Map.Author));
                         }
                     }
-                    else {
-                        UI::Text("-");
-                    }
-                }
 
-                if (UI::TableNextColumn()) {
-                    if (totd.CupData.Night !is null) {
-                        if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Night.NumPlayers) + "##night" + index)) {
-                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Night));
+                    if (UI::TableNextColumn()) {
+                        if (totd.CupData.Day !is null) {
+                            if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Day.NumPlayers) + "##day" + index)) {
+                                SetSubRoute(::Route::Cup(totd, Api::e_CupType::Day));
+                            }
+                        }
+                        else {
+                            UI::Text("-");
                         }
                     }
-                    else {
-                        UI::Text("-");
-                    }
-                }
 
-                if (UI::TableNextColumn()) {
-                    if (totd.CupData.Morning !is null) {
-                        if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Morning.NumPlayers) + "##morning" + index)) {
-                            SetSubRoute(::Route::Cup(totd, Api::e_CupType::Morning));
+                    if (UI::TableNextColumn()) {
+                        if (totd.CupData.Night !is null) {
+                            if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Night.NumPlayers) + "##night" + index)) {
+                                SetSubRoute(::Route::Cup(totd, Api::e_CupType::Night));
+                            }
+                        }
+                        else {
+                            UI::Text("-");
                         }
                     }
-                    else {
-                        UI::Text("-");
-                    }
-                }
 
-                if (UI::TableNextColumn()) {
-                    if (UI::Button(Icons::Map + "##totd" + index)) {
-                        SetSubRoute(::Route::Totd(totd));
+                    if (UI::TableNextColumn()) {
+                        if (totd.CupData.Morning !is null) {
+                            if (UI::Button(Icons::Trophy + " " + tostring(totd.CupData.Morning.NumPlayers) + "##morning" + index)) {
+                                SetSubRoute(::Route::Cup(totd, Api::e_CupType::Morning));
+                            }
+                        }
+                        else {
+                            UI::Text("-");
+                        }
+                    }
+
+                    if (UI::TableNextColumn()) {
+                        if (UI::Button(Icons::Map + "##totd" + index)) {
+                            SetSubRoute(::Route::Totd(totd));
+                        }
                     }
                 }
             }
