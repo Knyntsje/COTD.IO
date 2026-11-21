@@ -47,7 +47,7 @@ class Totd : SubRoute {
                         UI::PlayerAvatar(entry.Player);
 
                         if (UI::ClickableText(entry.Player.GetDisplayName())) {
-                            UI::window.Router.Goto("players", ::Route::Player(entry.Player));
+                            UI::window.Router.Goto("players", Route::Player(entry.Player));
                         }
                     }
 

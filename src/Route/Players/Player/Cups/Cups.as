@@ -54,7 +54,7 @@ class PlayerCups : Route {
 
                     if (UI::TableNextColumn()) {
                         if (UI::Selectable(cup.Map.GetDisplayName(), false, UI::SelectableFlags::SpanAllColumns)) {
-                            UI::window.Router.Goto("tracks", ::Route::Cup(Api::Totd(cup), cup.Type));
+                            UI::window.Router.Goto("tracks", Route::Cup(Api::Totd(cup), cup.Type));
                         }
                     }
 
