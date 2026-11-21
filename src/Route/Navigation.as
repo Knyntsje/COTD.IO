@@ -11,7 +11,7 @@ class NavigationState {
         return (subRoute is null || subRoute.Matches(other.subRoute)) && (tab is null || tab.Matches(other.tab));
     }
 
-	Route @route;
+	Base @route;
     NavigationState @subRoute;
     NavigationState @tab;
 }

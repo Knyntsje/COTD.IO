@@ -1,6 +1,6 @@
 namespace Route {
 
-class PlayerCups : Route {    
+class PlayerCups : Base {    
     PlayerCups(const Api::Player @_player) {
         super("player/cups", "Cup of the Day");
         @player = _player;

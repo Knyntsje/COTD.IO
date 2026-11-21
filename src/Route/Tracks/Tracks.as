@@ -1,6 +1,6 @@
 namespace Route {
 
-class Tracks : Route {    
+class Tracks : Base {    
     Tracks() {
         super("tracks", Icons::Map + " Tracks");
         @infiniteScroll = UI::InfiniteScrollTable("##tracks", UI::InfiniteScrollCallback(MarkDirty));

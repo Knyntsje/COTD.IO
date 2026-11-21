@@ -1,7 +1,7 @@
 namespace Route {
 
-class Route {
-    Route(const string &in _id, const string &in _name) {
+class Base {
+    Base(const string &in _id, const string &in _name) {
         id = _id;
         name = _name;
         isDirty = true;
@@ -60,7 +60,7 @@ class Route {
         return isActive;
     }
 
-    void SetSubRoute(Route @_subRoute) {
+    void SetSubRoute(Base @_subRoute) {
         @subRoute = _subRoute;
     }
 
@@ -95,15 +95,15 @@ class Route {
     }
 
     protected void RenderRoute() {
-        throw("Route::RenderRoute not implemented");
+        throw("Base::RenderRoute not implemented");
     }
 
     protected void Reset() {
-        throw("Route::Reset not implemented");
+        throw("Base::Reset not implemented");
     }
 
     protected void Load() {
-        throw("Route::Load not implemented");
+        throw("Base::Load not implemented");
     }
 
     protected bool get_DataChanged() {
@@ -119,7 +119,7 @@ class Route {
     protected bool isDirty;
     protected bool dataChanged;
 
-    protected Route @subRoute;
+    protected Base @subRoute;
 
     protected string id;
     protected string name;

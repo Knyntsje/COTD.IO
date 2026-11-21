@@ -1,6 +1,6 @@
 namespace Route {
 
-class CupLeaderboard : Route {
+class CupLeaderboard : Base {
     CupLeaderboard(const Api::CupDataEntry @_cupDataEntry) {
         super("cup/leaderboard", "Leaderboard");
         @cupDataEntry = _cupDataEntry;

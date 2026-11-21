@@ -1,6 +1,6 @@
 namespace Route {
 
-class SubRoute : Route {
+class SubRoute : Base {
     SubRoute(const string &in id, const string &in name) {
         super(id, name);
     }

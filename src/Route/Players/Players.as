@@ -1,6 +1,6 @@
 namespace Route {
 
-class Players : Route {    
+class Players : Base {    
     Players() {
         super("players", Icons::User + " Players");
         @infiniteScroll = UI::InfiniteScrollTable("##players", UI::InfiniteScrollCallback(MarkDirty));

@@ -1,6 +1,6 @@
 namespace Route {
 
-class Stats : Route {
+class Stats : Base {
     Stats() {
         super("stats", Icons::Home + " Stats");
 
@@ -15,7 +15,7 @@ class Stats : Route {
 
     void Update() override {
         router.Update();
-        Route::Update();
+        Base::Update();
     }
 
     protected void RenderRoute() override {

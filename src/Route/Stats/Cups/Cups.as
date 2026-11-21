@@ -1,6 +1,6 @@
 namespace Route {
 
-class StatsCups : Route {
+class StatsCups : Base {
     StatsCups() {
         super("stats/cups", "Cup of the Day");
         @topPlayersRenderer = UI::TopPlayersRenderer();

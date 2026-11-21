@@ -1,12 +1,12 @@
 namespace Route {
 
 class Router {
-    void AddRoute(Route @route) {
+    void AddRoute(Base @route) {
         routes.InsertLast(route);
     }
 
-    void Goto(const string &in id, Route @subRoute = null) {
-        foreach (Route @route : routes) {
+    void Goto(const string &in id, Base @subRoute = null) {
+        foreach (Base @route : routes) {
             if (route.Id == id) {
                 @pendingRoute = route;
                 route.SetSubRoute(subRoute);
@@ -16,7 +16,7 @@ class Router {
     }
 
     NavigationState @CaptureNavigation() {
-        Route @selected = pendingRoute !is null ? pendingRoute : activeRoute;
+        Base @selected = pendingRoute !is null ? pendingRoute : activeRoute;
         if (selected is null && routes.Length > 0) {
             @selected = routes[0];
         }
@@ -32,7 +32,7 @@ class Router {
     void Render() {
         UI::BeginTabBar("##routerTabs");
 
-        foreach (Route @route : routes) {
+        foreach (Base @route : routes) {
             if (route.Render(@route == @pendingRoute)) {
                 @activeRoute = route;
             }
@@ -55,9 +55,9 @@ class Router {
         }
     }
 
-    protected array<Route@> routes;
-    protected Route @activeRoute;
-    protected Route @pendingRoute;
+    protected array<Base@> routes;
+    protected Base @activeRoute;
+    protected Base @pendingRoute;
 }
 
 }
